@@ -1,39 +1,43 @@
 # This config was automatically generated from your source code
 # Stacks detected: deps:python:.
 version: 2.1
+
 orbs:
   python: circleci/python@2
 
 jobs:
   test-python:
     docker:
-      - image: cimg/python:3.8-node  # Python + Node.js base image
+      - image: cimg/python:3.8-node  # Python + Node.js image
     steps:
       - checkout
 
-      # Install Python dependencies
-      - python/install-packages
+      # Install Python dependencies from requirements.txt
+      - python/install-packages:
+          pkg-manager: pip
+          args: -r requirements.txt
 
-      # Install Playwright and Browsers
+      # Install Playwright via npm and download browsers
       - run:
           name: Install Playwright and Browsers
           command: |
-            npm ci  # install from package-lock.json if available, or use npm install
-            npx playwright install --with-deps  # install browsers + dependencies
+            npm install playwright --unsafe-perm=true
+            npx playwright install --with-deps
 
-      # Confirm installation
+      # Confirm installation for debugging
       - run:
           name: Debug Playwright Installation
           command: |
             npx playwright --version
             ls -la ~/.cache/ms-playwright/
 
-      # Run your Playwright-based Python tests
+      # Run Playwright Python tests using pytest
       - run:
-          name: Run tests
-          command: pytest tests
+          name: Run Pytest Tests
+          command: |
+            pytest tests
 
-      # Store test results (optional)
+      # (Optional) Store test results (JUnit format)
       - store_test_results:
           path: junit.xml
 
