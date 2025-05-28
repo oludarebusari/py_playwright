@@ -25,7 +25,7 @@ def log_message(logger, message: str, level: LogLevel = LogLevel.INFO, attach_to
     if attach_to_allure:
         allure.attach(
             message,
-            name=f"(Log ({level.value.upper()}",
+            name=f"Log ({level.value.upper()})",
             attachment_type = allure.attachment_type.TEXT
         )
 
