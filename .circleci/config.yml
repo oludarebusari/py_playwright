@@ -13,19 +13,22 @@ jobs:
       # Install Python dependencies
       - python/install-packages
 
-      # Install Playwright and required browsers
+      # Install Playwright and browsers
       - run:
           name: Install Playwright and Browsers
           command: |
-            npm install playwright  # Install Playwright locally using npm
-            npx playwright install   # Install the necessary browsers (Chromium, WebKit, Firefox)
+            # Install Playwright locally using npm
+            npm install playwright --unsafe-perm=true  # --unsafe-perm to avoid permission issues
+            npx playwright install  # Install the necessary browsers (Chromium, WebKit, Firefox)
 
-      # Debugging: Check if the browsers were installed correctly
+      # Debugging: Check Playwright version and installed browsers
       - run:
-          name: Check Playwright Browsers Installation
+          name: Debug Playwright Installation
           command: |
-            echo "Checking Playwright browser installation..."
-            ls -l ~/.cache/ms-playwright/  # List installed browsers in the cache directory
+            # Check if Playwright is installed correctly
+            npx playwright --version
+            # List the contents of the Playwright cache directory to see if browsers were installed
+            ls -l ~/.cache/ms-playwright/
 
       # Run tests
       - run:
