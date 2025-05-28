@@ -22,7 +22,7 @@ def setup_playwright(playwright: Playwright, request) -> Page:
     headed: bool = request.config.getoption("--headed") or False
 
     # Launch the Chromium browser
-    browser: Browser = playwright.webkit.launch(headless=not headed)
+    browser: Browser = playwright.chromium.launch(headless=not headed)
     
     # Create a new page (tab) in the browser
     page: Page = browser.new_page()
