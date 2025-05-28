@@ -18,8 +18,11 @@ from playwright.sync_api import Playwright, Page, Browser
 
 @pytest.fixture()
 def setup_playwright(playwright: Playwright, request) -> Page: 
+    
+    # Force headless on CI
+    is_ci = os.environ.get("CI") == "true"
     # Determine if browser should run in headed mode
-    headed: bool = request.config.getoption("--headed") or False
+    headed: bool = request.config.getoption("--headed") if not is_ci else False
 
     # Launch the Chromium browser
     browser: Browser = playwright.chromium.launch(headless=not headed)
