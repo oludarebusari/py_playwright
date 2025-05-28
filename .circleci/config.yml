@@ -3,6 +3,8 @@
 version: 2.1
 orbs:
   python: circleci/python@2
+  node: circleci/node@4.1.0  # Use the official Node.js orb for package management
+
 jobs:
   test-python:
     docker:
@@ -10,14 +12,16 @@ jobs:
     steps:
       - checkout
       - python/install-packages  # Install Python dependencies
+      - node/install-packages:   # Install Node.js dependencies using npm
+          pkg-manager: npm
       - run:
-          name: Install Playwright and Browsers
+          name: Install Playwright Browsers
           command: |
-            sudo npm install -g playwright  # Install Playwright globally
-            sudo npx playwright install    # Install the necessary browsers
+            npm install playwright  # Install Playwright locally
+            npx playwright install   # Download the necessary browsers (Chromium, WebKit, Firefox)
       - run:
           name: Run tests
-          command: pytest tests
+          command: pytest tests  # Run the tests with pytest
       - store_test_results:
           path: junit.xml
 
