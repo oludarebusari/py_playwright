@@ -3,32 +3,36 @@
 version: 2.1
 orbs:
   python: circleci/python@2
+  playwright: circleci/playwright@1 # Add this orb to simplify Playwright setup
+
 jobs:
   test-python:
-    # Install dependencies and run tests
     docker:
       - image: cimg/python:3.8-node
     steps:
       - checkout
       - python/install-packages
       - run:
+          name: Install Playwright Browsers
+          command: playwright install  # Ensure the browsers are installed
+      - run:
           name: Run tests
           command: pytest tests
       - store_test_results:
           path: junit.xml
+
   deploy:
-    # This is an example deploy job, not actually used by the workflow
     docker:
       - image: cimg/base:stable
     steps:
-      # Replace this with steps to deploy to users
       - run:
           name: deploy
           command: '#e.g. ./deploy.sh'
+
 workflows:
   build-and-test:
     jobs:
       - test-python
-    # - deploy:
-    #     requires:
-    #       - test-python
+      # - deploy:
+      #     requires:
+      #       - test-python
