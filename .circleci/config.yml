@@ -8,36 +8,41 @@ orbs:
 jobs:
   test-python:
     docker:
-      - image: cimg/python:3.8-node  # Python + Node.js image
+      - image: cimg/python:3.8-node  # Python + Node.js
     steps:
       - checkout
 
-      # Install Python dependencies from requirements.txt
+      # Install Python dependencies
       - python/install-packages:
           pkg-manager: pip
           args: -r requirements.txt
 
-      # Install Playwright via npm and download browsers
+      # Install Playwright browsers for Python
       - run:
-          name: Install Playwright and Browsers
+          name: Install Python Playwright Browsers
           command: |
-            npm install playwright --unsafe-perm=true
-            npx playwright install --with-deps
+            python -m playwright install --with-deps
 
-      # Confirm installation for debugging
+      # (Optional) Also install Node.js Playwright if you use it for anything
+      # - run:
+      #     name: Install Node.js Playwright (Optional)
+      #     command: |
+      #       npm install playwright
+      #       npx playwright install --with-deps
+
+      # Debug installation
       - run:
-          name: Debug Playwright Installation
+          name: Debug Playwright Environment
           command: |
-            npx playwright --version
+            python -m playwright --version
             ls -la ~/.cache/ms-playwright/
 
-      # Run Playwright Python tests using pytest
+      # Run Pytest tests
       - run:
-          name: Run Pytest Tests
-          command: |
-            pytest tests
+          name: Run Tests
+          command: pytest tests
 
-      # (Optional) Store test results (JUnit format)
+      # (Optional) Store test results
       - store_test_results:
           path: junit.xml
 
