@@ -1,0 +1,30 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+
+# VS Code settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Pytest cache
+.cache/
+.pytest_cache/
+
+# Test output and logs
+*.log
+*.coverage
+htmlcov/
+
+# Allure results
+allure-results/
+allure-report/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/

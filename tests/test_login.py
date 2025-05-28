@@ -3,9 +3,8 @@ import pytest
 import sys
 import os
 
-# Add 'page_objects' and 'helper' directories to sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../page_objects')))
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../helper')))
+# Add the parent directories of 'helper' and 'page_objects' to the sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 from helper.config import VALID_CREDENTIALS
