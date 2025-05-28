@@ -6,15 +6,15 @@ orbs:
 jobs:
   test-python:
     docker:
-      - image: cimg/python:3.8-node  # Use an image with Node.js (needed for Playwright)
+      - image: cimg/python:3.8-node  # This image contains both Python and Node.js
     steps:
       - checkout
       - python/install-packages
       - run:
           name: Install Playwright Browsers
           command: |
-            npm install -g playwright  # Install Playwright via npm
-            playwright install           # Install the necessary browsers
+            sudo npm install -g playwright  # Use sudo to install globally
+            sudo playwright install          # Install the necessary browsers
       - run:
           name: Run tests
           command: pytest tests
