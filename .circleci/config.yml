@@ -3,18 +3,25 @@
 version: 2.1
 orbs:
   python: circleci/python@2
+  node: circleci/node@4.1.0  # Use the official Node.js orb for package management
+
 jobs:
   test-python:
     docker:
-      - image: cimg/python:3.8-node  # This image contains both Python and Node.js
+      - image: cimg/python:3.8-node  # Use an image with both Python and Node.js
     steps:
       - checkout
-      - python/install-packages
+      - python/install-packages  # Install Python dependencies
+      - node/install-packages:   # Install Node.js dependencies using npm
+          pkg-manager: npm
       - run:
           name: Install Playwright Browsers
           command: |
-            sudo npm install -g playwright  # Use sudo to install globally
-            sudo playwright install          # Install the necessary browsers
+            npx playwright install   # Install the necessary browsers
+      - run:
+          name: Install Playwright System Dependencies
+          command: |
+            sudo npx playwright install-deps  # Install system dependencies required by Playwright
       - run:
           name: Run tests
           command: pytest tests
