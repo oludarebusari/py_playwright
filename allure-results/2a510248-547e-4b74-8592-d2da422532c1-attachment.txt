@@ -1,1 +1,0 @@
-Execution action: click_element with arguments ()

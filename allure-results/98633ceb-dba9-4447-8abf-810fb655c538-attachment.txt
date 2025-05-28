@@ -1,7 +1,0 @@
-[32mINFO    [0m LoginPage:utils.py:14 Execution action: navigate_to with arguments ('https://saucedemo.com',)
-[32mINFO    [0m venv:utils.py:14 navigate to login page
-[32mINFO    [0m LoginPage:utils.py:14 performing login
-[32mINFO    [0m LoginPage:utils.py:14 Execution action: type_text with arguments ('standard_user',)
-[32mINFO    [0m LoginPage:utils.py:14 Execution action: type_text with arguments ('secret_sauce',)
-[32mINFO    [0m LoginPage:utils.py:14 Execution action: click_element with arguments ()
-[32mINFO    [0m venv:utils.py:14 closing browser
