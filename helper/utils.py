@@ -1,5 +1,7 @@
 from enum import Enum
+from venv import logger
 import allure
+
 
 class LogLevel(Enum):
     INFO = "info"
@@ -39,4 +41,5 @@ def take_screenshot(page, name: str = "screenshot"):
         )
         return screenshot_data
     except Exception:
+        log_message(logger, f"Screenshot capture failed: {e}", level=LogLevel.ERROR)
         return None
