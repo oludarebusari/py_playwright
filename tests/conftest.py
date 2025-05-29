@@ -36,7 +36,7 @@ def setup_login_page(page: Page, request) -> LoginPage:
 
 
 @pytest.fixture
-def setup_all_pages(page: Page) -> tuple[LoginPage, MainPage]:
+def setup_all_pages(page: Page) -> Page:
 
     # Initialize page objects
     login_page = LoginPage(page)
