@@ -19,11 +19,13 @@ from playwright.sync_api import Page
 @pytest.fixture
 def setup_login_page(page: Page, request) -> LoginPage:
     
-    # Force headless on CI
-    is_ci = os.environ.get("CI") == "true"
-    # Determine if browser should run in headed mode
+    # Check if we are running in CI
+    is_ci = os.environ.get("CI", "").lower() == "true"  # Ensure comparison is case-insensitive
+    print(f"Running in CI: {is_ci}")  # Debugging line to check the CI status
+    
+    # Determine if the browser should run in headed mode
     headed: bool = request.config.getoption("--headed") if not is_ci else False
-
+    
     # Initialize the LoginPage object using the page
     login_page = LoginPage(page)
     
