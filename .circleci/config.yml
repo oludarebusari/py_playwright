@@ -1,18 +1,21 @@
 # This config was automatically generated from your source code
 # Stacks detected: deps:python:.
+version: 2.1
+
+orbs:
+  python: circleci/python@2
+
 jobs:
   test-python:
     docker:
-      - image: cimg/python:3.8-node
+      - image: cimg/python:3.8-node  # Python + Node.js
     steps:
       - checkout
 
-      # Try to fix missing dependencies
+      # Update apt-get packages
       - run:
-          name: Install Playwright browsers (with --fix-missing)
-          command: |
-            sudo apt-get update
-            sudo apt-get install -y --fix-missing python3-playwright
+          name: Update apt-get packages
+          command: sudo apt-get update
 
       # Install Python dependencies
       - python/install-packages:
@@ -40,3 +43,8 @@ jobs:
       # (Optional) Store test results
       - store_test_results:
           path: junit.xml
+
+workflows:
+  build-and-test:
+    jobs:
+      - test-python
