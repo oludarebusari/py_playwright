@@ -11,37 +11,18 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from page_objects.login_page import LoginPage
 from page_objects.main_page import MainPage
 from helper.config import BASE_URL
-from helper.utils import log_message, LogLevel
+from helper.utils import log_message
 from helper.validation import AppValidation
-from playwright.sync_api import Playwright, Page, Browser
+from playwright.sync_api import Page
 
 
-@pytest.fixture()
-def setup_playwright(playwright: Playwright, request) -> Page: 
+@pytest.fixture
+def setup_login_page(page: Page, request) -> LoginPage:
     
     # Force headless on CI
     is_ci = os.environ.get("CI") == "true"
     # Determine if browser should run in headed mode
     headed: bool = request.config.getoption("--headed") if not is_ci else False
-
-    # Launch the Chromium browser
-    browser: Browser = playwright.chromium.launch(headless=not headed)
-    
-    # Create a new page (tab) in the browser
-    page: Page = browser.new_page()
-    
-    # Provide the page to the test
-    yield page
-
-    # Cleanup: log and close the browser after the test
-    log_message(logger, "Closing the browser", LogLevel.INFO)
-    browser.close()
-
-
-@pytest.fixture
-def setup_login_page(setup_playwright):
-    # setup_playwright gives you a Playwright Page
-    page = setup_playwright
 
     # Initialize the LoginPage object using the page
     login_page = LoginPage(page)
@@ -55,8 +36,7 @@ def setup_login_page(setup_playwright):
 
 
 @pytest.fixture
-def setup_all_pages(setup_playwright):
-    page = setup_playwright
+def setup_all_pages(page: Page) -> tuple[LoginPage, MainPage]:
 
     # Initialize page objects
     login_page = LoginPage(page)
