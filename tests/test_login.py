@@ -23,14 +23,18 @@ def test_successfully_login(setup_login_page,validation):
 @pytest.mark.parametrize(
     "email, password, expected_error",
     [
-        ("wrong_email_template","valid_password","error"),
-        ("valid_email@gmail.com","wrong_password","error")
+        ("test_username","secret_sauce","Epic sadface: Username and password do not match any user in this service"),
+        ("standard_user","wrong_password","Epic sadface: Username and password do not match any user in this service"),
 
     ],
+    ids=[
+        "Invalid username with valid password",
+        "Valid username with invalid password"
+    ]
 )
 def test_invalid_login_and_verify_error_message(setup_login_page,validation,email, password, expected_error):
     login_page = setup_login_page
     main_page = login_page.perform_login(email, password)
 
-    assert main_page is None, "Login should have failed but it passed!"
-    validation.validate_failed_login(expected_error)
+    actual_error = login_page.get_error_message()
+    validation.validate_failed_login(actual_error, expected_error)

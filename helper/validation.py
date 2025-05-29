@@ -20,25 +20,6 @@ class AppValidation(BasePage):
             raise "Login failed"
 
 
-    def validate_failed_login(self, expected_error):
-        login_button = self.login_page.login_button
-        try:
-            expect(login_button).to_be()
-
-        except:
-            log_message(self.logger,"login button failed to be visible", LogLevel.ERROR)
-            take_screenshot("login button failed to be visible")
-            raise "expected login button to be visible but it was displayed"
-
-
-
-
-        error_message = self.login_page.get_error_message(message_error)
-        expect(error_message).to_be_visible(), "login button was expected to be hidden, but it was visible"
-
-
-        self.error_message = self.page.locator("//div[@id='email_container']")
-
-
-    def get_error_message(self, message_error):
-        return self.error_message.locator(f"//div[contains(text(), '{message_error}')]")
+    def validate_failed_login(self, actual_error: str, expected_error: str):
+        assert actual_error == expected_error, f"Expected error message '{expected_error}', but got '{actual_error}'"
+        log_message(self.logger, f"Expected error message '{expected_error}' matches actual error '{actual_error}'", LogLevel.INFO)
