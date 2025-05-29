@@ -14,7 +14,7 @@ class LoginPage(BasePage):
         self.login_button = self.page.locator("#login-button")
 
     @allure.step("Performing login with username: {username}")
-    def perform_login(self, username: str, password: str) ->MainPage | None:
+    def perform_login(self, username: str, password: str) ->MainPage:
         """
         Perform login with given credentials.
 
