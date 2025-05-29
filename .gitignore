@@ -1,6 +1,6 @@
 # Byte-compiled / cache files
 helper/__pycache__/
-page-object/__pycache__/
+page_objects/__pycache__/
 tests/__pycache__/
 *.py[cod]
 *.pyo
